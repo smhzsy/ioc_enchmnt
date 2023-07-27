@@ -1,11 +1,17 @@
 import shodan
+from dotenv import load_dotenv
+import os
 
-def shodan_lookup(api_key, ip):
+load_dotenv()  # .env dosyasındaki verileri yükle
+
+sh_api_key = os.getenv("SHODAN_API_KEY")
+
+
+def shodan_lookup(ip):
     try:
-        api = shodan.Shodan(api_key)
+        api = shodan.Shodan(sh_api_key)
 
         host = api.host(ip)
-
 
         print("=== Shodan Bilgileri ===")
         print("IP Adresi: ", host['ip_str'])
@@ -18,4 +24,3 @@ def shodan_lookup(api_key, ip):
         print(host)
     except shodan.APIError as e:
         print("Hata: ", str(e))
-

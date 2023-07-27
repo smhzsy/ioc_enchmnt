@@ -10,6 +10,7 @@ packages = [{include = "ioc_enchmnt"}]
 python = "^3.11"
 whois = "^0.9.27"
 shodan = "^1.29.1"
+python-dotenv = "^1.0.0"
 
 
 [build-system]
