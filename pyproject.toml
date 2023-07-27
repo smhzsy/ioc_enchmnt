@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "ioc-enchmnt"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "ioc_enchmnt"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+whois = "^0.9.27"
+shodan = "^1.29.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
