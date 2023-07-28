@@ -2,7 +2,7 @@ import shodan
 from dotenv import load_dotenv
 import os
 
-load_dotenv()  # .env dosyasındaki verileri yükle
+load_dotenv()
 
 sh_api_key = os.getenv("SHODAN_API_KEY")
 
