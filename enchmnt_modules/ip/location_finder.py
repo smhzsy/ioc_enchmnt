@@ -7,4 +7,4 @@ def get_location(keyword: str):
     print(response.text)
 
 
-get_location("8.8.8.8")
+get_location("google.com")
