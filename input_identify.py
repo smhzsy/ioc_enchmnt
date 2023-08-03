@@ -1,6 +1,7 @@
 from enums import InputType
-from identifiers import domain_identifier, url_identifier, ip_identifier
-from identifiers.hash_types import md5_identifier, sha1_identifier, sha256_identifier
+from identifiers import domain_identifier, ip_identifier, url_identifier
+from identifiers.hash_types import (md5_identifier, sha1_identifier,
+                                    sha256_identifier)
 
 
 def identify_input_type(input_str: str) -> InputType | None:

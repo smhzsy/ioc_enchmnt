@@ -1,11 +1,15 @@
 import requests
 
-def yara_hash_lookup(hash_value:str):
+from celery_files.celery_config import app
+
+
+@app.task
+def yara_hash_lookup_async(hash_value:str):
     """
     API'ye verilen hash değerini sorgular ve sonuçları döndürür.
 
     Args:
-        hash_value (str): Sorgulanacak hash değeri (SHA256, MD5, SHA1 veya SHA3-384).
+        hash_value (str): Sorgulanacak hash değeri (SHA256, MD5, SHA1).
 
     Returns:
         dict: API'nin döndürdüğü JSON yanıtı.

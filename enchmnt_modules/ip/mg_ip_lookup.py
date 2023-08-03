@@ -1,7 +1,10 @@
 import requests
 
+from celery_files.celery_config import app
 
-def mg_ip_lookup(ip_address):
+
+@app.task
+def mg_ip_lookup_async(ip_address):
     try:
         url = f"https://check.mertcan.dev/check.php?ip={ip_address}"
         response = requests.get(url)
@@ -16,6 +19,3 @@ def mg_ip_lookup(ip_address):
         return None
 
 
-json_response = mg_ip_lookup("8.8.8.8")
-if json_response:
-    print(json_response)

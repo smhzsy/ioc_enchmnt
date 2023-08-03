@@ -1,13 +1,18 @@
+import os
+
 import requests
 from dotenv import load_dotenv
-import os
+
+from celery_files.celery_config import app
 
 load_dotenv()
 
 git_auth_token = os.getenv("GITHUB_AUTH_TOKEN")
 
 
-def search_in_github_repo(search_ioc):
+
+@app.task
+def search_in_bd_repo_async(search_ioc):
     repo_url = 'https://api.github.com/repos/BRANDEFENSE/IoC'
     headers = {}
     if git_auth_token:
@@ -25,6 +30,7 @@ def search_in_github_repo(search_ioc):
                 if content_response.status_code == 200:
                     file_content = content_response.text
                     if search_ioc in file_content:
+                        print("success")
                         return file['name']
         return None
     else:

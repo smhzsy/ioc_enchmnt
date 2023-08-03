@@ -1,6 +1,10 @@
 import whois
 
-def whois_lookup(domain):
+from celery_files.celery_config import app
+
+
+@app.task
+def whois_lookup_async(domain):
     try:
         w = whois.whois(domain)
         print("=== WHOIS Bilgileri ===")

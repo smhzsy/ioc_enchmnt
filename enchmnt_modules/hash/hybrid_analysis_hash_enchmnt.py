@@ -3,12 +3,17 @@ import os
 import requests
 from dotenv import load_dotenv
 
+from celery_files.celery_config import app
+
 load_dotenv()
 
 hyan_api_key = os.getenv("HYBRID_API_KEY")
 
 
-def get_hyan_hash_info(hash_to_look: str):
+
+
+@app.task
+def get_hyan_hash_info_async(hash_to_look: str):
     url = 'https://www.hybrid-analysis.com/api/v2/search/hash'
     headers = {
         'accept': 'application/json',
@@ -26,5 +31,3 @@ def get_hyan_hash_info(hash_to_look: str):
 
     print(json_response)
 
-
-get_hyan_hash_info("8ffbb7a80efa9ee79e996abde7a95cf8dc6f9a41f9026672a8dbd95539fea82a")

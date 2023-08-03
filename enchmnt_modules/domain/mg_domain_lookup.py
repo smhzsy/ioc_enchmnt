@@ -1,7 +1,10 @@
 import requests
 
+from celery_files.celery_config import app
 
-def find_input_in_domains(input_value):
+
+@app.task
+def mg_domain_lookup_async(input_value):
     url = "https://raw.githubusercontent.com/mertcangokgoz/public-disavow-links/main/disavow-links.txt"
     try:
         response = requests.get(url)
@@ -16,7 +19,3 @@ def find_input_in_domains(input_value):
         print(f"Input value '{input_value}' not found in any domain.")
     except requests.exceptions.RequestException as e:
         print("An error occurred while making the request:", e)
-
-input_value = "fr"
-
-find_input_in_domains(input_value)

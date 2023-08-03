@@ -1,14 +1,17 @@
-import requests
 import os
 
+import requests
 from dotenv import load_dotenv
 
 load_dotenv()
 
 apivoid_api_key = os.getenv("APIVOID_API_KEY")
 
+from celery_files.celery_config import app
 
-def search_apivoid_url(url):
+
+@app.task
+def search_apivoid_url_async(url):
     api_endpoint = "https://endpoint.apivoid.com/urlrep/v1/pay-as-you-go/"
     params = {
         'key': apivoid_api_key,
@@ -26,8 +29,3 @@ def search_apivoid_url(url):
         print(f'Error: {e}')
 
     return None
-
-
-url_to_check = "https://www.sibergah.com/genel/internet-guvenligi/kotucul-siteleri-online-tespit-ve-tarama-araclari/"
-api_response = search_apivoid_url(url_to_check)
-print(api_response)

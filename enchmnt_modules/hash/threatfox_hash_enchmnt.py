@@ -1,7 +1,10 @@
 import requests
 
+from celery_files.celery_config import app
 
-def search_hash_threatfox(file_hash):
+
+@app.task
+def search_hash_threatfox_async(file_hash):
     url = 'https://threatfox-api.abuse.ch/api/v1/'
     headers = {'Content-Type': 'application/json'}
     data = {
@@ -23,9 +26,3 @@ def search_hash_threatfox(file_hash):
         print(f'Error: {e}')
 
     return None
-
-
-# Example usage:
-file_hash_to_search = '2151c4b970eff0071948dbbc19066aa4'
-search_result = search_hash_threatfox(file_hash_to_search)
-print(search_result)

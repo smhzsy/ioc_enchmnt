@@ -1,7 +1,10 @@
 import requests
 
+from celery_files.celery_config import app
 
-def search_ioc_threatfox(ioc):
+
+@app.task
+def search_ioc_threatfox_async(ioc):
     url = 'https://threatfox-api.abuse.ch/api/v1/'
     headers = {'Content-Type': 'application/json'}
     data = {
@@ -23,7 +26,3 @@ def search_ioc_threatfox(ioc):
         print(f'Error: {e}')
 
     return None
-
-ioc_to_search = 'nyanmoney02.duckdns.org'
-search_result = search_ioc_threatfox(ioc_to_search)
-print(search_result)

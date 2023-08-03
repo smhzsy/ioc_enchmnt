@@ -1,15 +1,19 @@
 import os
-import time
 
 import requests
 from dotenv import load_dotenv
+
+from celery_files.celery_config import app
 
 load_dotenv()
 
 vt_api_key = os.getenv("VT_API_KEY")
 
 
-def get_virustotal_url_info(url):
+
+
+@app.task
+def get_virustotal_url_info_async(url):
     scan_url = 'https://www.virustotal.com/vtapi/v2/url/scan'
     params = {'apikey': vt_api_key, 'url': url}
     scan_response = requests.post(scan_url, params=params)

@@ -1,13 +1,17 @@
+import os
+
 import shodan
 from dotenv import load_dotenv
-import os
 
 load_dotenv()
 
 sh_api_key = os.getenv("SHODAN_API_KEY")
 
+from celery_files.celery_config import app
 
-def shodan_lookup(ip):
+
+@app.task
+def shodan_lookup_async(ip):
     try:
         api = shodan.Shodan(sh_api_key)
 
