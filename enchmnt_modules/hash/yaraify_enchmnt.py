@@ -1,10 +1,10 @@
 import requests
 
-from celery_files.celery_config import app
+from database_files.add import add_data
+from database_files.session import create_session
 
 
-@app.task
-def yara_hash_lookup_async(hash_value:str):
+async def yara_hash_lookup_async(hash_value:str):
     """
     API'ye verilen hash değerini sorgular ve sonuçları döndürür.
 
@@ -24,7 +24,8 @@ def yara_hash_lookup_async(hash_value:str):
         api_url = "https://yaraify-api.abuse.ch/api/v1/"
         response = requests.post(api_url, json=data, headers=headers)
         response_data = response.json()
-        return response_data
+        session = create_session()
+        add_data(session, hash_value, "yaraify", str(response_data), "hash_table")
     except requests.RequestException as e:
         print(f"Hata oluştu: {e}")
         return None

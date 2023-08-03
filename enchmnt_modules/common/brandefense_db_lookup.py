@@ -3,16 +3,15 @@ import os
 import requests
 from dotenv import load_dotenv
 
-from celery_files.celery_config import app
+from database_files.add import add_data
+from database_files.session import create_session
 
 load_dotenv()
 
 git_auth_token = os.getenv("GITHUB_AUTH_TOKEN")
 
 
-
-@app.task
-def search_in_bd_repo_async(search_ioc):
+async def search_in_bd_repo_async(search_ioc, table_name):
     repo_url = 'https://api.github.com/repos/BRANDEFENSE/IoC'
     headers = {}
     if git_auth_token:
@@ -30,8 +29,8 @@ def search_in_bd_repo_async(search_ioc):
                 if content_response.status_code == 200:
                     file_content = content_response.text
                     if search_ioc in file_content:
-                        print("success")
-                        return file['name']
+                        session = create_session()
+                        add_data(session, search_ioc, "brandefense_repo", file['name'], table_name)
         return None
     else:
         print(f'Hata: GitHub API\'si dosya listesi alınamadı. Hata kodu: {response.status_code}')

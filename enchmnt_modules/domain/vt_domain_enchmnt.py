@@ -3,17 +3,15 @@ import os
 import requests
 from dotenv import load_dotenv
 
-from celery_files.celery_config import app
+from database_files.add import add_data
+from database_files.session import create_session
 
 load_dotenv()
 
 vt_api_key = os.getenv("VT_API_KEY")
 
 
-
-
-@app.task
-def get_virustotal_domain_info_async(domain: str):
+async def get_virustotal_domain_info_async(domain: str):
     url = f"https://www.virustotal.com/api/v3/domains/{domain}"
 
     headers = {
@@ -22,5 +20,6 @@ def get_virustotal_domain_info_async(domain: str):
     }
 
     response = requests.get(url, headers=headers)
-
-    print(response.text)
+    if response:
+        session = create_session()
+        add_data(session, domain, "virustotal", response.text, "domain_table")

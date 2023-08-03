@@ -1,10 +1,10 @@
 import requests
 
-from celery_files.celery_config import app
+from database_files.add import add_data
+from database_files.session import create_session
 
 
-@app.task
-def search_ioc_threatfox_async(ioc):
+async def search_ioc_threatfox_async(ioc, table_name):
     url = 'https://threatfox-api.abuse.ch/api/v1/'
     headers = {'Content-Type': 'application/json'}
     data = {
@@ -17,7 +17,8 @@ def search_ioc_threatfox_async(ioc):
         if response.status_code == 200:
             result = response.json()
             if result['query_status'] == 'ok':
-                return result['data']
+                session = create_session()
+                add_data(session, ioc, "threatfox", str(result['data']), table_name)
             else:
                 print('Error: API returned a query_status other than "ok"')
         else:

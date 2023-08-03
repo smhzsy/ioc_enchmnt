@@ -1,10 +1,10 @@
 import requests
 
-from celery_files.celery_config import app
+from database_files.add import add_data
+from database_files.session import create_session
 
 
-@app.task
-def mg_domain_lookup_async(input_value):
+async def mg_domain_lookup_async(input_value):
     url = "https://raw.githubusercontent.com/mertcangokgoz/public-disavow-links/main/disavow-links.txt"
     try:
         response = requests.get(url)
@@ -13,8 +13,9 @@ def mg_domain_lookup_async(input_value):
 
         for domain in domains:
             if input_value.lower() in domain.lower():
-                print(f"Input value '{input_value}' found in domain: {domain}")
-                return
+                result = f"Input value '{input_value}' found in domain: {domain}"
+                session = create_session()
+                add_data(session, input_value, "mg_db", result, "domain_table")
 
         print(f"Input value '{input_value}' not found in any domain.")
     except requests.exceptions.RequestException as e:

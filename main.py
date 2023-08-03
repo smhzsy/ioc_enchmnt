@@ -19,51 +19,52 @@ from enchmnt_modules.url.urlvoid_lookup import search_apivoid_url_async
 from enchmnt_modules.url.vt_url_enchmnt import get_virustotal_url_info_async
 from enums import InputType
 from input_identify import identify_input_type
+import asyncio
 
 
-def router(ioc: str):
+async def router(ioc: str):
     type = identify_input_type(ioc)
     if type == InputType.URL:
-        print("url")
-        print(search_indicator_in_alienvault_async("url", ioc))
-        print(search_in_bd_repo_async(ioc))
-        print(get_iq_info_async(ioc))
-        print(search_ioc_threatfox_async(ioc))
-        print(search_apivoid_url_async(ioc))
-        print(whois_lookup_async(ioc))
-        print(get_location_async(ioc))
-        print(get_virustotal_url_info_async(ioc))
+        await search_indicator_in_alienvault_async("url", ioc, "url_table")
+        await search_in_bd_repo_async(ioc, "url_table")
+        await get_iq_info_async(ioc, "url_table")
+        await search_ioc_threatfox_async(ioc, "url_table")
+        await search_apivoid_url_async(ioc)
+        await whois_lookup_async(ioc, "url_table")
+        await get_location_async(ioc, "url_table")
+        await get_virustotal_url_info_async(ioc)
     elif type == InputType.IP:
-        print("ip")
-        print(search_indicator_in_alienvault_async("IPv4", ioc))
-        print(search_in_bd_repo_async(ioc))
-        print(get_iq_info_async(ioc))
-        print(search_ioc_threatfox_async(ioc))
-        print(whois_lookup_async(ioc))
-        print(get_virustotal_ip_info_async(ioc))
-        print(get_location_async(ioc))
-        print(mg_ip_lookup_async(ioc))
-        print(shodan_lookup_async(ioc))
+        await search_indicator_in_alienvault_async("IPv4", ioc, "ip_table")
+        await search_in_bd_repo_async(ioc, "ip_table")
+        await get_iq_info_async(ioc, "ip_table")
+        await search_ioc_threatfox_async(ioc, "ip_table")
+        await whois_lookup_async(ioc, "ip_table")
+        await get_virustotal_ip_info_async(ioc)
+        await get_location_async(ioc, "ip_table")
+        await mg_ip_lookup_async(ioc)
+        await shodan_lookup_async(ioc)
     elif type == InputType.MD5_HASH or type == InputType.SHA1_HASH or type == InputType.SHA256_HASH:
-        print("hash")
-        print(search_indicator_in_alienvault_async("file", ioc))
-        print(search_in_bd_repo_async(ioc))
-        print(get_iq_info_async(ioc))
-        print(search_ioc_threatfox_async(ioc))
-        print(get_hyan_hash_info_async(ioc))
-        print(search_hash_threatfox_async(ioc))
-        print(get_virustotal_hash_info_async(ioc))
-        print(yara_hash_lookup_async(ioc))
+        await search_indicator_in_alienvault_async("file", ioc, "hash_table")
+        await search_in_bd_repo_async(ioc, "hash_table")
+        await get_iq_info_async(ioc, "hash_table")
+        await search_ioc_threatfox_async(ioc, "hash_table")
+        await get_hyan_hash_info_async(ioc)
+        await search_hash_threatfox_async(ioc)
+        #await get_virustotal_hash_info_async(ioc)
+        await yara_hash_lookup_async(ioc)
     elif type == InputType.DOMAIN:
-        print("domain")
-        print(search_indicator_in_alienvault_async("domain", ioc))
-        print(search_in_bd_repo_async(ioc))
-        print(get_iq_info_async(ioc))
-        print(search_ioc_threatfox_async(ioc))
-        print(whois_lookup_async(ioc))
-        print(get_location_async(ioc))
-        print(get_virustotal_domain_info_async(ioc))
-        print(mg_domain_lookup_async(ioc))
+        await search_indicator_in_alienvault_async("domain", ioc, "domain_table")
+        await search_in_bd_repo_async(ioc, "domain_table")
+        await get_iq_info_async(ioc, "domain_table")
+        await search_ioc_threatfox_async(ioc, "domain_table")
+        await whois_lookup_async(ioc, "domain_table")
+        await get_location_async(ioc, "domain_table")
+        await get_virustotal_domain_info_async(ioc)
+        await mg_domain_lookup_async(ioc)
 
 
-router("google.com")
+async def main():
+    await router("456fffc256422ad667ca023d694494881baed1496a3067485d56ecc8fefbfaeb")
+
+
+asyncio.run(main())

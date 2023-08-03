@@ -1,34 +1,33 @@
 import os
-
-import requests
+import aiohttp
+import asyncio
 from dotenv import load_dotenv
 
-from celery_files.celery_config import app
+from database_files.add import add_data
+from database_files.session import create_session
 
 load_dotenv()
 
 av_api_key = os.getenv("ALIENVAULT_API_KEY")
 
 
-
-
-@app.task
-def search_indicator_in_alienvault_async(indicator_type, indicator_value):
+async def search_indicator_in_alienvault_async(indicator_type, indicator_value, table_name):
     endpoint = f"https://otx.alienvault.com/api/v1/indicators/{indicator_type}/{indicator_value}/general"
     headers = {"X-OTX-API-KEY": av_api_key}
 
     try:
-        response = requests.get(endpoint, headers=headers)
-        response_data = response.json()
+        async with aiohttp.ClientSession() as session:
+            async with session.get(endpoint, headers=headers) as response:
+                response_data = await response.json()
 
-        if response.status_code == 200:
-            print("success")
-            return response_data
+                if response.status == 200:
+                    session = create_session()
+                    add_data(session, indicator_value, "alienvault", str(response_data), table_name)
 
-        else:
-            print("Error: Unable to fetch data from AlienVault.")
-            return None
+                else:
+                    print("Error: Unable to fetch data from AlienVault.")
+                    return None
 
-    except requests.exceptions.RequestException as e:
-        print("Error: Request Exception -", e)
+    except aiohttp.ClientError as e:
+        print("Error: Client Error -", e)
         return None

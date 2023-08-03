@@ -1,24 +1,13 @@
 import whois
 
-from celery_files.celery_config import app
+from database_files.add import add_data
+from database_files.session import create_session
 
 
-@app.task
-def whois_lookup_async(domain):
+async def whois_lookup_async(input_ioc, table_name):
     try:
-        w = whois.whois(domain)
-        print("=== WHOIS Bilgileri ===")
-        print("Domain Adı: ", w.domain_name)
-        print("Sunucu Adı: ", w.name_servers)
-        print("Oluşturulma Tarihi: ", w.creation_date)
-        print("Son Güncelleme Tarihi: ", w.updated_date)
-        print("Bitiş Tarihi: ", w.expiration_date)
-        print("Registrar: ", w.registrar)
-        print("Sahip (Owner): ", w.name)
-        print("Sahip E-posta: ", w.emails)
-        print("Sahip Telefon: ", w.phone)
-        print("Sahip Adres: ", w.address)
-        print("=== Diğer Bilgiler ===")
-        print(w)
+        w = whois.whois(input_ioc)
+        session = create_session()
+        add_data(session, input_ioc, "whois", str(w), table_name)
     except Exception as e:
         print("Hata: ", str(e))

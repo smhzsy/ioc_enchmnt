@@ -3,16 +3,14 @@ import os
 import requests
 from dotenv import load_dotenv
 
-from celery_files.celery_config import app
+from database_files.add import add_data
+from database_files.session import create_session
 
 load_dotenv()
 
 vt_api_key = os.getenv("VT_API_KEY")
 
 
-
-
-@app.task
 def get_virustotal_url_info_async(url):
     scan_url = 'https://www.virustotal.com/vtapi/v2/url/scan'
     params = {'apikey': vt_api_key, 'url': url}
@@ -26,7 +24,8 @@ def get_virustotal_url_info_async(url):
         response_json = response.json()
 
         if response.status_code == 200:
-            return response_json
+            session = create_session()
+            add_data(session, url, "virustotal", str(response_json), "url_table")
         else:
             print('Error:', response_json['verbose_msg'])
     else:
