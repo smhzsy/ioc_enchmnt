@@ -6,7 +6,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 apivoid_api_key = os.getenv("APIVOID_API_KEY")
-def query_apivoid_api(url):
+
+
+def search_apivoid_url(url):
     api_endpoint = "https://endpoint.apivoid.com/urlrep/v1/pay-as-you-go/"
     params = {
         'key': apivoid_api_key,
@@ -27,5 +29,5 @@ def query_apivoid_api(url):
 
 
 url_to_check = "https://www.sibergah.com/genel/internet-guvenligi/kotucul-siteleri-online-tespit-ve-tarama-araclari/"
-api_response = query_apivoid_api(url_to_check)
+api_response = search_apivoid_url(url_to_check)
 print(api_response)
