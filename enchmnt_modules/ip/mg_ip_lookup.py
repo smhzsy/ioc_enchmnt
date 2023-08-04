@@ -23,7 +23,7 @@ async def mg_ip_lookup_async(ip_address: str) -> None:
         response = requests.get(url)
         response.raise_for_status()
         json_data = response.json()
-        if "False" in str(json_data):
+        if "false" in str(json_data):
             add_data(session, ip_address, "mg_db", "IOC not found.", "ip_table")
             logger.info("Mertcan Gokgoz ip info failed.")
         elif "invalid query" in str(json_data):
@@ -34,4 +34,6 @@ async def mg_ip_lookup_async(ip_address: str) -> None:
             logger.info("Mertcan Gokgoz ip info added.")
     except Exception as e:
         add_data(session, ip_address, "mg_db", "Error occurred.", "ip_table")
-        error_logger.error("Error occurred while trying to fetch data from MG bad IP API: " + str(e))
+        error_logger.error(
+            "Error occurred while trying to fetch data from MG bad IP API: " + str(e)
+        )

@@ -23,10 +23,7 @@ async def search_apivoid_url_async(url: str) -> None:
     :return: Info with logs.
     """
     api_endpoint = "https://endpoint.apivoid.com/urlrep/v1/pay-as-you-go/"
-    params = {
-        'key': apivoid_api_key,
-        'url': url
-    }
+    params = {"key": apivoid_api_key, "url": url}
     session = create_session()
     try:
         response = requests.get(api_endpoint, params=params)
@@ -39,4 +36,6 @@ async def search_apivoid_url_async(url: str) -> None:
             logger.info("ApiVoid info failed.")
     except requests.exceptions.RequestException as e:
         add_data(session, url, "apivoid", "Error occurred.", "url_table")
-        error_logger.error("Error occurred while trying to fetch data from ApiVoid: " + str(e))
+        error_logger.error(
+            "Error occurred while trying to fetch data from ApiVoid: " + str(e)
+        )

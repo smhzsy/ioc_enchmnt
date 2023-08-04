@@ -26,11 +26,15 @@ async def get_urlscan_info_async(type: str, keyword: str, table_name: str) -> No
     response_dict = json.loads(response.text)
     try:
         if response_dict["results"]:
-            add_data(session, keyword, "urlscan", str(response_dict["results"]), table_name)
+            add_data(
+                session, keyword, "urlscan", str(response_dict["results"]), table_name
+            )
             logger.info("UrlScan info added.")
         else:
             add_data(session, keyword, "urlscan", "IOC not found.", table_name)
             logger.info("UrlScan info failed.")
     except Exception as e:
         add_data(session, keyword, "urlscan", "Error occurred.", table_name)
-        error_logger.error("Error occurred while trying to fetch data from UrlScan: " + str(e))
+        error_logger.error(
+            "Error occurred while trying to fetch data from UrlScan: " + str(e)
+        )

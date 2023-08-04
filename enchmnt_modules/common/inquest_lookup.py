@@ -22,7 +22,9 @@ async def get_iq_info_async(keyword: str, table_name: str) -> None:
     if response:
         response_dict = json.loads(response.text)
         if response_dict["data"]:
-            add_data(session, keyword, "inquest", str(response_dict["data"]), table_name)
+            add_data(
+                session, keyword, "inquest", str(response_dict["data"]), table_name
+            )
             logger.info("InQuest info added.")
         else:
             add_data(session, keyword, "inquest", "IOC not found.", table_name)

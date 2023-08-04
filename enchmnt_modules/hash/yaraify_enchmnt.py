@@ -1,4 +1,3 @@
-
 import requests
 
 import logger_config
@@ -16,7 +15,7 @@ async def yara_hash_lookup_async(hash_value: str) -> None:
     :param hash_value: Hash IOC to search.
     :return: Info with logs.
     """
-    headers = {'Content-Type': 'application/json'}
+    headers = {"Content-Type": "application/json"}
     data = {
         "query": "lookup_hash",
         "search_term": hash_value,
@@ -34,4 +33,6 @@ async def yara_hash_lookup_async(hash_value: str) -> None:
             logger.info("Yaraify info added.")
     except requests.RequestException as e:
         add_data(session, hash_value, "yaraify", "Error occurred.", "hash_table")
-        error_logger.error("Error occurred while trying to fetch data from Yaraify: " + str(e))
+        error_logger.error(
+            "Error occurred while trying to fetch data from Yaraify: " + str(e)
+        )

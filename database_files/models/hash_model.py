@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 HashBase = declarative_base()
 
+
 class HASH(HashBase):
     __tablename__ = "hash_table"
 

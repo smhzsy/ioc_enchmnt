@@ -1,4 +1,3 @@
-
 import json
 
 import whois
@@ -27,10 +26,8 @@ async def whois_lookup_async(input_ioc: str, table_name: str) -> None:
             add_data(session, input_ioc, "whois", str(w), table_name)
             logger.info("Whois info added.")
         else:
-            add_data(session, input_ioc, "whois","IOC not found.", table_name)
+            add_data(session, input_ioc, "whois", "IOC not found.", table_name)
             logger.info("Whois info failed.")
     except Exception as e:
         add_data(session, input_ioc, "whois", "Error occurred.", table_name)
         error_logger.error("Error while trying to fetch data from whois: " + str(e))
-
-

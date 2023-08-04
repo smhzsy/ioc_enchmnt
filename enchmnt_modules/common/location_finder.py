@@ -24,7 +24,9 @@ async def get_location_async(keyword: str, table_name: str) -> None:
             add_data(session, keyword, "location", response.text, table_name)
             logger.info("Location info added.")
         else:
-            add_data(session, keyword, "location", "Couldn't find location.", table_name)
+            add_data(
+                session, keyword, "location", "Couldn't find location.", table_name
+            )
             logger.info("Location info failed.")
     except Exception as e:
         add_data(session, keyword, "location", "Error occurred.", table_name)

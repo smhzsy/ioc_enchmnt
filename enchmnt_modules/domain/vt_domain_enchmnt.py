@@ -24,10 +24,7 @@ async def get_virustotal_domain_info_async(domain: str) -> None:
     """
     url = f"https://www.virustotal.com/api/v3/domains/{domain}"
 
-    headers = {
-        "accept": "application/json",
-        "x-apikey": vt_api_key
-    }
+    headers = {"accept": "application/json", "x-apikey": vt_api_key}
 
     response = requests.get(url, headers=headers)
     session = create_session()
@@ -40,4 +37,6 @@ async def get_virustotal_domain_info_async(domain: str) -> None:
             logger.info("VirusTotal domain info failed.")
     except Exception as e:
         add_data(session, domain, "virustotal", "Error occurred.", "domain_table")
-        error_logger.error("Error occured while trying to fetch data from VirusTotal domain: " + str(e))
+        error_logger.error(
+            "Error occured while trying to fetch data from VirusTotal domain: " + str(e)
+        )

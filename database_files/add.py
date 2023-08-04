@@ -17,15 +17,19 @@ def add_data(session, ioc_value, column_name, value, table_name):
     table = None
     if table_name == "url_table":
         from database_files.models.url_model import URL
+
         table = URL
     elif table_name == "domain_table":
         from database_files.models.domain_model import DOMAIN
+
         table = DOMAIN
     elif table_name == "ip_table":
         from database_files.models.ip_model import IP
+
         table = IP
     elif table_name == "hash_table":
         from database_files.models.hash_model import HASH
+
         table = HASH
 
     if table is None:

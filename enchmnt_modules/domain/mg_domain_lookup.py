@@ -23,11 +23,15 @@ async def mg_domain_lookup_async(input_value: str) -> None:
         domains = response.text.splitlines()
         for domain in domains:
             if input_value.lower() in domain.lower():
-                add_data(session, input_value, "mg_db", "IOC Found in Repo.", "domain_table")
+                add_data(
+                    session, input_value, "mg_db", "IOC Found in Repo.", "domain_table"
+                )
                 logger.info("Mertcan Gokgoz domain info added.")
         else:
             add_data(session, input_value, "mg_db", "IOC not found.", "domain_table")
             logger.info("Mertcan Gokgoz domain info failed.")
     except requests.exceptions.RequestException as e:
         add_data(session, input_value, "mg_db", "Error occurred.", "domain_table")
-        error_logger.error("Error occurred while trying to fetch data from MG domain: " + str(e))
+        error_logger.error(
+            "Error occurred while trying to fetch data from MG domain: " + str(e)
+        )

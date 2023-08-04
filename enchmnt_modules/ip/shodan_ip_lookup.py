@@ -36,4 +36,6 @@ async def shodan_lookup_async(ip: str) -> None:
             logger.info("Shodan info added.")
     except shodan.APIError as e:
         add_data(session, ip, "shodan", "Error occurred.", "ip_table")
-        error_logger.error("Error occurred while trying to fetch data from Shodan: " + str(e))
+        error_logger.error(
+            "Error occurred while trying to fetch data from Shodan: " + str(e)
+        )

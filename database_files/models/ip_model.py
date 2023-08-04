@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 IPBase = declarative_base()
 
+
 class IP(IPBase):
     __tablename__ = "ip_table"
 

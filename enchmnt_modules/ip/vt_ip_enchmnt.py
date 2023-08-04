@@ -24,10 +24,7 @@ async def get_virustotal_ip_info_async(ip: str) -> None:
     """
     url = f"https://www.virustotal.com/api/v3/ip_addresses/{ip}"
 
-    headers = {
-        "accept": "application/json",
-        "x-apikey": vt_api_key
-    }
+    headers = {"accept": "application/json", "x-apikey": vt_api_key}
     session = create_session()
     try:
         response = requests.get(url, headers=headers)
@@ -39,4 +36,6 @@ async def get_virustotal_ip_info_async(ip: str) -> None:
             logger.info("VirusTotal IP info failed.")
     except Exception as e:
         add_data(session, ip, "virustotal", "Error occurred.", "ip_table")
-        error_logger.error("Error occurred while trying to fetch data from VirusTotal IP: " + str(e))
+        error_logger.error(
+            "Error occurred while trying to fetch data from VirusTotal IP: " + str(e)
+        )

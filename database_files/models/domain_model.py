@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 DomainBase = declarative_base()
 
+
 class DOMAIN(DomainBase):
     __tablename__ = "domain_table"
 

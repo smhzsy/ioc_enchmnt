@@ -24,10 +24,7 @@ async def get_virustotal_hash_info_async(hash_value: str) -> None:
     """
     url = f"https://www.virustotal.com/api/v3/files/{hash_value}"
 
-    headers = {
-        "accept": "application/json",
-        "x-apikey": vt_api_key
-    }
+    headers = {"accept": "application/json", "x-apikey": vt_api_key}
     session = create_session()
     try:
         response = requests.get(url, headers=headers)
@@ -39,4 +36,6 @@ async def get_virustotal_hash_info_async(hash_value: str) -> None:
             logger.info("VirusTotal Hash info failed.")
     except Exception as e:
         add_data(session, hash_value, "virustotal", "Error occurred.", "hash_table")
-        error_logger.error("Error occurred while trying to fetch data from VirusTotal Hash: " + str(e))
+        error_logger.error(
+            "Error occurred while trying to fetch data from VirusTotal Hash: " + str(e)
+        )

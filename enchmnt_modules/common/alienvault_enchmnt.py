@@ -16,7 +16,9 @@ logger = logger_config.get_logger()
 error_logger = logger_config.get_error_logger()
 
 
-async def search_indicator_in_alienvault_async(indicator_type: str, indicator_value: str, table_name: str) -> None:
+async def search_indicator_in_alienvault_async(
+    indicator_type: str, indicator_value: str, table_name: str
+) -> None:
     """
     Scans the ioc in alienvault's database. Adds all to info found to database.
     :param indicator_type: Special type of the ioc which is specified by AlienVault.
@@ -34,10 +36,22 @@ async def search_indicator_in_alienvault_async(indicator_type: str, indicator_va
 
                 if response.status == 200:
                     session = create_session()
-                    add_data(session, indicator_value, "alienvault", str(response_data), table_name)
+                    add_data(
+                        session,
+                        indicator_value,
+                        "alienvault",
+                        str(response_data),
+                        table_name,
+                    )
                     logger.info("AlienVault info added.")
                 else:
-                    add_data(session, indicator_value, "alienvault", "IOC not found.", table_name)
+                    add_data(
+                        session,
+                        indicator_value,
+                        "alienvault",
+                        "IOC not found.",
+                        table_name,
+                    )
                     error_logger.error("Error: Unable to find data in AlienVault")
 
     except aiohttp.ClientError as e:

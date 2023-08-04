@@ -15,27 +15,33 @@ async def search_hash_threatfox_async(file_hash: str) -> None:
     :param file_hash: IOC to search.
     :return: Info with logs.
     """
-    url = 'https://threatfox-api.abuse.ch/api/v1/'
-    headers = {'Content-Type': 'application/json'}
-    data = {
-        'query': 'search_hash',
-        'hash': file_hash
-    }
+    url = "https://threatfox-api.abuse.ch/api/v1/"
+    headers = {"Content-Type": "application/json"}
+    data = {"query": "search_hash", "hash": file_hash}
     session = create_session()
     try:
         response = requests.post(url, json=data, headers=headers)
         if response.status_code == 200:
             result = response.json()
-            if result['query_status'] == 'ok':
-                add_data(session, file_hash, "threatfox", str(result['data']), "hash_table")
+            if result["query_status"] == "ok":
+                add_data(
+                    session, file_hash, "threatfox", str(result["data"]), "hash_table"
+                )
                 logger.info("ThreatFox Hash info added.")
             else:
-                add_data(session, file_hash, "threatfox", "IOC not found.", "hash_table")
+                add_data(
+                    session, file_hash, "threatfox", "IOC not found.", "hash_table"
+                )
                 logger.info("ThreatFox Hash info failed.")
         else:
             add_data(session, file_hash, "threatfox", "Error occurred.", "hash_table")
-            error_logger.error("Error occurred while trying to fetch data from ThreatFox hash database: " + str(response.status_code))
+            error_logger.error(
+                "Error occurred while trying to fetch data from ThreatFox hash database: "
+                + str(response.status_code)
+            )
     except requests.exceptions.RequestException as e:
         add_data(session, file_hash, "threatfox", "Error occurred.", "hash_table")
-        error_logger.error("Error occurred while trying to fetch data from ThreatFox hash database: " + str(e))
-
+        error_logger.error(
+            "Error occurred while trying to fetch data from ThreatFox hash database: "
+            + str(e)
+        )
