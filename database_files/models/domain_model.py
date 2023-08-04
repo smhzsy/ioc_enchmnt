@@ -13,6 +13,7 @@ class DOMAIN(DomainBase):
     inquest = Column(String())
     threatfox = Column(String())
     whois = Column(String())
+    urlscan = Column(String())
     location = Column(String())
     virustotal = Column(String())
     mg_db = Column(String())

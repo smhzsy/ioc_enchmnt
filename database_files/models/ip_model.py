@@ -15,5 +15,6 @@ class IP(IPBase):
     whois = Column(String())
     virustotal = Column(String())
     location = Column(String())
+    urlscan = Column(String())
     mg_db = Column(String())
     shodan = Column(String())

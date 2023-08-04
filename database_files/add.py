@@ -12,6 +12,7 @@ URLBase.metadata.create_all(engine)
 HashBase.metadata.create_all(engine)
 DomainBase.metadata.create_all(engine)
 
+
 def add_data(session, ioc_value, column_name, value, table_name):
     table = None
     if table_name == "url_table":
