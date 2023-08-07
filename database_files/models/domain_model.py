@@ -5,6 +5,9 @@ DomainBase = declarative_base()
 
 
 class DOMAIN(DomainBase):
+    """
+    Database model for Domain table.
+    """
     __tablename__ = "domain_table"
 
     id = Column(Integer, primary_key=True)

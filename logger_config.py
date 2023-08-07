@@ -15,6 +15,9 @@ LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
 
 
 def configure_logging():
+    """
+    Logger configurations.
+    """
     logging.basicConfig(level=LOG_LEVEL, format=LOG_FORMAT, filename=OUTPUT_LOG_FILE)
 
     error_logger = logging.getLogger("error_logger")
@@ -25,9 +28,17 @@ def configure_logging():
 
 
 def get_logger():
+    """
+    Getting the info log file.
+    :return: Log file.
+    """
     return logging.getLogger("main_logger")
 
 
 def get_error_logger():
+    """
+    Getting the error log file.
+    :return: Log file.
+    """
     error_logger = logging.getLogger("error_logger")
     return error_logger

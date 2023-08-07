@@ -1,5 +1,7 @@
 import asyncio
 
+import logger_config
+from database_files.table_creator import create_tables
 from enchmnt_modules.common.alienvault_enchmnt import (
     search_indicator_in_alienvault_async,
 )
@@ -23,8 +25,12 @@ from enchmnt_modules.url.vt_url_enchmnt import get_virustotal_url_info_async
 from enums import InputType
 from input_identify import identify_input_type
 
+logger_config.configure_logging()
+logger = logger_config.get_logger()
+
 
 async def router(ioc: str):
+    create_tables()
     type = identify_input_type(ioc)
     if type == InputType.URL:
         await search_indicator_in_alienvault_async("url", ioc, "url_table")
@@ -47,9 +53,9 @@ async def router(ioc: str):
         await shodan_lookup_async(ioc)
         await get_urlscan_info_async("ip", ioc, "ip_table")
     elif (
-        type == InputType.MD5_HASH
-        or type == InputType.SHA1_HASH
-        or type == InputType.SHA256_HASH
+            type == InputType.MD5_HASH
+            or type == InputType.SHA1_HASH
+            or type == InputType.SHA256_HASH
     ):
         await search_indicator_in_alienvault_async("file", ioc, "hash_table")
         await search_in_bd_repo_async(ioc, "hash_table")
@@ -69,10 +75,10 @@ async def router(ioc: str):
         await get_virustotal_domain_info_async(ioc)
         await mg_domain_lookup_async(ioc)
         await get_urlscan_info_async("domain", ioc, "domain_table")
+    else:
+        logger.info("IoC Input Type Incorrect.")
 
 
-async def main():
-    await router("http://supservermgr.com/sys/upd/pageupd.php")
+async def main(ioc: str):
+    await router(ioc)
 
-
-asyncio.run(main())

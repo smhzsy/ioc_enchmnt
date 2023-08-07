@@ -1,19 +1,20 @@
-from sqlalchemy import create_engine
 
-from database_files.models.domain_model import DomainBase
-from database_files.models.hash_model import HashBase
-from database_files.models.ip_model import IPBase
-from database_files.models.url_model import URLBase
-from database_files.session import create_session
+from database_files.engine_creator import db_engine_create
+from sqlalchemy.orm import Session
 
-engine = create_engine("postgresql://postgres:password@localhost/ioc_enchmnt")
-IPBase.metadata.create_all(engine)
-URLBase.metadata.create_all(engine)
-HashBase.metadata.create_all(engine)
-DomainBase.metadata.create_all(engine)
+engine = db_engine_create()
 
 
-def add_data(session, ioc_value, column_name, value, table_name):
+def add_data(session: Session, ioc_value: str, column_name: str, value: str, table_name: str) -> None:
+    """
+    Database method for writing datas found to database.
+    :param session: Database session.
+    :param ioc_value: Unique key.
+    :param column_name: The column which data will be written.
+    :param value: The data.
+    :param table_name: The table name to write data.
+    :return: None
+    """
     table = None
     if table_name == "url_table":
         from database_files.models.url_model import URL
@@ -42,7 +43,3 @@ def add_data(session, ioc_value, column_name, value, table_name):
         session.add(new_row)
 
     session.commit()
-
-
-session = create_session()
-add_data(session, "test url", "inquest", "success", "domain_table")

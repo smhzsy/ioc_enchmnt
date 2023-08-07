@@ -5,6 +5,9 @@ HashBase = declarative_base()
 
 
 class HASH(HashBase):
+    """
+    Database model for Hash table.
+    """
     __tablename__ = "hash_table"
 
     id = Column(Integer, primary_key=True)

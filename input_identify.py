@@ -4,6 +4,11 @@ from identifiers.hash_types import md5_identifier, sha1_identifier, sha256_ident
 
 
 def identify_input_type(input_str: str) -> InputType | None:
+    """
+    Identifier method for input string.
+    :param input_str: String to identify.
+    :return: InputType
+    """
     if domain_identifier.check_if_domain(input_str):
         return InputType.DOMAIN
     elif url_identifier.check_if_url(input_str):
