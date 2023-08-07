@@ -5,6 +5,7 @@ class InputType(Enum):
     """
     Enums for IoC types.
     """
+
     DOMAIN = "Domain"
     URL = "URL"
     IP = "IP"

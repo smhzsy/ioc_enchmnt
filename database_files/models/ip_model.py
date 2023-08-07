@@ -8,6 +8,7 @@ class IP(IPBase):
     """
     Database model for IP table.
     """
+
     __tablename__ = "ip_table"
 
     id = Column(Integer, primary_key=True)

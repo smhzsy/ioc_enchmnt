@@ -8,6 +8,7 @@ class URL(URLBase):
     """
     Database model for URL table.
     """
+
     __tablename__ = "url_table"
 
     id = Column(Integer, primary_key=True)

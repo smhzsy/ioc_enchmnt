@@ -1,7 +1,9 @@
 import asyncio
 import time
-from fastapi.responses import JSONResponse
+
+import uvicorn
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 
 from database_files.data_getters.get_domain import get_domain_data
 from database_files.data_getters.get_hash import get_hash_data
@@ -10,7 +12,6 @@ from database_files.data_getters.get_url import get_url_data
 from enums import InputType
 from input_identify import identify_input_type
 from main import main
-import uvicorn
 
 app = FastAPI()
 
@@ -31,9 +32,9 @@ def search(ioc: str):
     elif ioc_type == InputType.IP:
         data = get_ip_data(ioc)
     elif (
-            ioc_type == InputType.MD5_HASH
-            or ioc_type == InputType.SHA1_HASH
-            or ioc_type == InputType.SHA256_HASH
+        ioc_type == InputType.MD5_HASH
+        or ioc_type == InputType.SHA1_HASH
+        or ioc_type == InputType.SHA256_HASH
     ):
         data = get_hash_data(ioc)
     elif ioc_type == InputType.DOMAIN:

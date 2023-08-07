@@ -1,4 +1,3 @@
-
 from sqlalchemy.orm import sessionmaker
 
 from database_files.engine_creator import db_engine_create
@@ -21,14 +20,13 @@ def get_hash_data(search_ioc: str) -> dict | None:
         return None
 
     data = {
-        'alienvault': result.alienvault,
-        'brandefense_repo': result.brandefense_repo,
-        'inquest': result.inquest,
-        'threatfox': result.threatfox,
-        'hybridanalysis': result.hybridanalysis,
-        'virustotal': result.virustotal,
-        'yaraify': result.yaraify
+        "alienvault": result.alienvault,
+        "brandefense_repo": result.brandefense_repo,
+        "inquest": result.inquest,
+        "threatfox": result.threatfox,
+        "hybridanalysis": result.hybridanalysis,
+        "virustotal": result.virustotal,
+        "yaraify": result.yaraify,
     }
 
     return data
-

@@ -20,15 +20,15 @@ def get_domain_data(search_ioc: str) -> dict | None:
         return None
 
     data = {
-        'alienvault': result.alienvault,
-        'brandefense_repo': result.brandefense_repo,
-        'inquest': result.inquest,
-        'threatfox': result.threatfox,
-        'whois': result.whois,
-        'urlscan': result.urlscan,
-        'location': result.location,
-        'virustotal': result.virustotal,
-        'mg_db': result.mg_db
+        "alienvault": result.alienvault,
+        "brandefense_repo": result.brandefense_repo,
+        "inquest": result.inquest,
+        "threatfox": result.threatfox,
+        "whois": result.whois,
+        "urlscan": result.urlscan,
+        "location": result.location,
+        "virustotal": result.virustotal,
+        "mg_db": result.mg_db,
     }
 
     return data

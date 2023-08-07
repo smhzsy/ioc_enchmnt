@@ -22,16 +22,16 @@ def get_ip_data(search_ioc: str) -> dict | None:
         return None
 
     data = {
-        'alienvault': result.alienvault,
-        'brandefense_repo': result.brandefense_repo,
-        'inquest': result.inquest,
-        'threatfox': result.threatfox,
-        'whois': result.whois,
-        'virustotal': result.virustotal,
-        'location': result.location,
-        'urlscan': result.urlscan,
-        'mg_db': result.mg_db,
-        'shodan': result.shodan
+        "alienvault": result.alienvault,
+        "brandefense_repo": result.brandefense_repo,
+        "inquest": result.inquest,
+        "threatfox": result.threatfox,
+        "whois": result.whois,
+        "virustotal": result.virustotal,
+        "location": result.location,
+        "urlscan": result.urlscan,
+        "mg_db": result.mg_db,
+        "shodan": result.shodan,
     }
 
     return data

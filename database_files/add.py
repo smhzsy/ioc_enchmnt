@@ -1,11 +1,13 @@
+from sqlalchemy.orm import Session
 
 from database_files.engine_creator import db_engine_create
-from sqlalchemy.orm import Session
 
 engine = db_engine_create()
 
 
-def add_data(session: Session, ioc_value: str, column_name: str, value: str, table_name: str) -> None:
+def add_data(
+    session: Session, ioc_value: str, column_name: str, value: str, table_name: str
+) -> None:
     """
     Database method for writing datas found to database.
     :param session: Database session.

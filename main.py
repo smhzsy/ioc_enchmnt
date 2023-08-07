@@ -1,5 +1,3 @@
-import asyncio
-
 import logger_config
 from database_files.table_creator import create_tables
 from enchmnt_modules.common.alienvault_enchmnt import (
@@ -53,9 +51,9 @@ async def router(ioc: str):
         await shodan_lookup_async(ioc)
         await get_urlscan_info_async("ip", ioc, "ip_table")
     elif (
-            type == InputType.MD5_HASH
-            or type == InputType.SHA1_HASH
-            or type == InputType.SHA256_HASH
+        type == InputType.MD5_HASH
+        or type == InputType.SHA1_HASH
+        or type == InputType.SHA256_HASH
     ):
         await search_indicator_in_alienvault_async("file", ioc, "hash_table")
         await search_in_bd_repo_async(ioc, "hash_table")
@@ -81,4 +79,3 @@ async def router(ioc: str):
 
 async def main(ioc: str):
     await router(ioc)
-
