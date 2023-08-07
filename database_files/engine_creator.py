@@ -5,5 +5,5 @@ def db_engine_create():
     """
     Database method for creating database engines.
     """
-    engine = create_engine("postgresql://postgres:password@localhost/ioc_enchmnt")
+    engine = create_engine("postgresql://postgres:password@postgresql/ioc_enchmnt")
     return engine

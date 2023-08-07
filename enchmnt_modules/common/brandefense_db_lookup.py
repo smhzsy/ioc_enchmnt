@@ -33,6 +33,7 @@ async def search_in_bd_repo_async(search_ioc: str, table_name: str) -> None:
     session = create_session()
     if response.status_code == 200:
         files = response.json()
+        found = False
         for file in files:
             if file["type"] == "file" and file["name"].endswith(".txt"):
                 download_url = file["download_url"]
@@ -48,7 +49,8 @@ async def search_in_bd_repo_async(search_ioc: str, table_name: str) -> None:
                             table_name,
                         )
                         logger.info("BRANDEFENSE info added.")
-        else:
+                        found = True
+        if not found:
             add_data(
                 session, search_ioc, "brandefense_repo", "IOC not found.", table_name
             )

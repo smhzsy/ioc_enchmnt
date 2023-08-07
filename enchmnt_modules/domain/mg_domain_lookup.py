@@ -21,13 +21,15 @@ async def mg_domain_lookup_async(input_value: str) -> None:
         response = requests.get(url)
         response.raise_for_status()
         domains = response.text.splitlines()
+        found = False
         for domain in domains:
             if input_value.lower() in domain.lower():
                 add_data(
                     session, input_value, "mg_db", "IOC Found in Repo.", "domain_table"
                 )
                 logger.info("Mertcan Gokgoz domain info added.")
-        else:
+                found = True
+        if not found:
             add_data(session, input_value, "mg_db", "IOC not found.", "domain_table")
             logger.info("Mertcan Gokgoz domain info failed.")
     except requests.exceptions.RequestException as e:

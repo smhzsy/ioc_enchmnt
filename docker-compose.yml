@@ -1,0 +1,26 @@
+version: '3'
+services:
+  postgresql:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ioc_enchmnt
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  ioc_api_image:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - postgresql
+    ports:
+      - "8000:8000"
+    expose:
+      - "8000"
+
+volumes:
+  postgres_data:
