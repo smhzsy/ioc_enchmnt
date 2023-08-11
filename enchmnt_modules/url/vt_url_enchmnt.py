@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import logger_config
 from database_files.add import add_data
 from database_files.session import create_session
-
+import pydash as _
 load_dotenv()
 
 vt_api_key = os.getenv("VT_API_KEY")
@@ -17,9 +17,10 @@ logger = logger_config.get_logger()
 error_logger = logger_config.get_error_logger()
 
 
-async def get_virustotal_url_info_async(url: str) -> None:
+async def get_virustotal_url_info_async(url: str, result_list: list) -> None:
     """
     Scans the url type ioc in virustotal. Adds the results to database.
+    :param result_list:
     :param url: the ioc
     :return: info with logs
     """
@@ -34,20 +35,27 @@ async def get_virustotal_url_info_async(url: str) -> None:
             report_url = "https://www.virustotal.com/vtapi/v2/url/report"
             params = {"apikey": vt_api_key, "resource": scan_response_json["scan_id"]}
             response = requests.get(report_url, params=params)
-            response_json = response.json()
 
             if response.status_code == 200:
-                add_data(session, url, "virustotal", str(response_json), "url_table")
+                _.push(result_list, "'VirusTotal': 'True'")
+                result_str = "".join(result_list)
+                add_data(session, url, result_str, "result")
                 logger.info("VirusTotal info added.")
             else:
-                add_data(session, url, "virustotal", "IOC not found.", "url_table")
+                _.push(result_list, "'VirusTotal': 'False'")
+                result_str = "".join(result_list)
+                add_data(session, url, result_str, "result")
                 logger.info("VirusTotal info failed.")
         else:
-            add_data(session, url, "virustotal", "Error occurred.", "url_table")
+            _.push(result_list, "'VirusTotal': 'Error'")
+            result_str = "".join(result_list)
+            add_data(session, url, result_str, "result")
             error_logger.error(
                 "Virustotal got an error while scanning."
                 + str(scan_response_json["verbose_msg"])
             )
     except Exception as e:
-        add_data(session, url, "virustotal", "Error occurred.", "url_table")
+        _.push(result_list, "'VirusTotal': 'Error'")
+        result_str = "".join(result_list)
+        add_data(session, url, result_str, "result")
         error_logger.error("Virustotal got an error while scanning." + str(e))

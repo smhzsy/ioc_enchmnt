@@ -1,6 +1,5 @@
-import json
-
-import requests
+import httpx
+import pydash as _
 
 import logger_config
 from database_files.add import add_data
@@ -11,25 +10,32 @@ logger = logger_config.get_logger()
 error_logger = logger_config.get_error_logger()
 
 
-async def get_iq_info_async(keyword: str, table_name: str) -> None:
+async def get_iq_info_async(keyword: str, result_list: list) -> None:
     """
     Getting all the datas from InQuest.
-    :param keyword: IOC to search
-    :param table_name: The table name in database to add datas.
+    :param result_list: The results list.
+    :param keyword: IOC to search.
     :return: Info with logs.
     """
     url = f"https://labs.inquest.net/api/iocdb/search?keyword={keyword}&filter_by="
-    response = requests.request("GET", url)
-    session = create_session()
-    if response:
-        response_dict = json.loads(response.text)
-        if response_dict["data"]:
-            add_data(
-                session, keyword, "inquest", str(response_dict["data"]), table_name
-            )
-            logger.info("InQuest info added.")
+
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        session = create_session()
+        if response.status_code == 200:
+            response_dict = response.json()
+            if response_dict["data"]:
+                _.push(result_list, "'InQuest': 'True'")
+                result_str = "".join(result_list)
+                add_data(session, keyword, result_str, "result")
+                logger.info("InQuest info added.")
+            else:
+                _.push(result_list, "'InQuest': 'False'")
+                result_str = "".join(result_list)
+                add_data(session, keyword, result_str, "result")
+                logger.info("InQuest info failed.")
         else:
-            add_data(session, keyword, "inquest", "IOC not found.", table_name)
-    else:
-        add_data(session, keyword, "inquest", "Error occurred.", table_name)
-        error_logger.error("Error")
+            _.push(result_list, "'InQuest': 'Error'")
+            result_str = "".join(result_list)
+            add_data(session, keyword, result_str, "result")
+            error_logger.error("Error in InQuest.")
