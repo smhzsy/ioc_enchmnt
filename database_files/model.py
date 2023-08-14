@@ -13,5 +13,5 @@ class RESULT(Base):
 
     id = Column(Integer, primary_key=True)
     ioc = Column(String(), nullable=False, unique=True)
-    result = Column(JSON)
-    info = Column(JSON)
+    result = Column(String)
+    info = Column(String)

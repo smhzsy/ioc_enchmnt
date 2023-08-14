@@ -28,22 +28,22 @@ async def whois_lookup_async(input_ioc: str, info_list: list) -> None:
             regis = response_dict["registrar"]
             update = response_dict["updated_date"]
             exp = response_dict["expiration_date"]
-            _.push(info_list, f"'Domain': '{domain}'")
-            _.push(info_list, f"'Registrant Name': '{regin}'")
-            _.push(info_list, f"'Registrar': '{regis}'")
-            _.push(info_list, f"'Updated Date': '{update}'")
-            _.push(info_list, f"'Expiration Date': '{exp}'")
+            _.push(info_list, f'"\'Domain\'":"{domain}",')
+            _.push(info_list, f'"\'Registrant Name\'":"{regin}",')
+            _.push(info_list, f'"\'Registrar\'":"{regis}",')
+            _.push(info_list, f'"\'Updated Date\'":"{update}",')
+            _.push(info_list, f'"\'Expiration Date\'":"{exp}",')
 
             result_str = "".join(info_list)
             add_data(session, input_ioc, result_str, "info")
             logger.info("Whois info added.")
         else:
-            _.push(info_list, "'WhoIs': 'Not Found.'")
+            _.push(info_list, '"\'WhoIs\'":"Not Found",')
             result_str = "".join(info_list)
             add_data(session, input_ioc, result_str, "info")
             logger.info("Whois info failed.")
     except Exception as e:
-        _.push(info_list, "'WhoIs': 'Error.'")
+        _.push(info_list, '"\'WhoIs\'":"Error",')
         result_str = "".join(info_list)
         add_data(session, input_ioc, result_str, "info")
         error_logger.error("Error while trying to fetch data from whois: " + str(e))

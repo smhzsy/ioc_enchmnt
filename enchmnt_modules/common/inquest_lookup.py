@@ -25,17 +25,17 @@ async def get_iq_info_async(keyword: str, result_list: list) -> None:
         if response.status_code == 200:
             response_dict = response.json()
             if response_dict["data"]:
-                _.push(result_list, "'InQuest': 'True'")
+                _.push(result_list, '"\'InQuest\'":"True",')
                 result_str = "".join(result_list)
                 add_data(session, keyword, result_str, "result")
                 logger.info("InQuest info added.")
             else:
-                _.push(result_list, "'InQuest': 'False'")
+                _.push(result_list, '"\'InQuest\'":"False",')
                 result_str = "".join(result_list)
                 add_data(session, keyword, result_str, "result")
                 logger.info("InQuest info failed.")
         else:
-            _.push(result_list, "'InQuest': 'Error'")
+            _.push(result_list, '"\'InQuest\'":"Error",')
             result_str = "".join(result_list)
             add_data(session, keyword, result_str, "result")
             error_logger.error("Error in InQuest.")

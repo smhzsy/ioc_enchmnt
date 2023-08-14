@@ -35,27 +35,25 @@ async def search_indicator_in_alienvault_async(type: InputType, indicator_value:
     indicator_type = indicator_type_dict.get(type)
     endpoint = f"https://otx.alienvault.com/api/v1/indicators/{indicator_type}/{indicator_value}/general"
     headers = {"X-OTX-API-KEY": av_api_key}
-
+    session = create_session()
     try:
         async with httpx.AsyncClient() as client:
             response = await client.get(endpoint, headers=headers)
             response.raise_for_status()
 
-            response_data = response.json()
-            session = create_session()
             if response.status_code == 200:
-                _.push(result_list, "'AlienVault': 'True'")
+                _.push(result_list, '"\'AlienVault\'":"True",')
                 result_str = "".join(result_list)
                 add_data(session, indicator_value, result_str, "result")
                 logger.info("AlienVault info added.")
             else:
-                _.push(result_list, "'AlienVault': 'False'")
+                _.push(result_list, '"\'AlienVault\'":"False",')
                 result_str = "".join(result_list)
                 add_data(session, indicator_value, result_str, "result")
                 error_logger.error("Error: Unable to find data in AlienVault")
 
     except httpx.HTTPError as e:
-        _.push(result_list, "'AlienVault': 'Error'")
+        _.push(result_list, '"\'AlienVault\'":"Error",')
         result_str = "".join(result_list)
         add_data(session, indicator_value, result_str, "result")
         error_logger.error("AlienVault Client Error: %s", e)

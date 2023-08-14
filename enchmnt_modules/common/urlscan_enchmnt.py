@@ -33,17 +33,17 @@ async def get_urlscan_info_async(type: InputType, keyword: str, result_list: lis
             response_dict = response.json()
 
             if response_dict["results"]:
-                _.push(result_list, "'UrlScan': 'True'")
+                _.push(result_list, '"\'UrlScan\'":"True",')
                 result_str = "".join(result_list)
                 add_data(session, keyword, result_str, "result")
                 logger.info("UrlScan info added.")
             else:
-                _.push(result_list, "'UrlScan': 'False'")
+                _.push(result_list, '"\'UrlScan\'":"False",')
                 result_str = "".join(result_list)
                 add_data(session, keyword, result_str, "result")
                 logger.info("UrlScan info failed.")
         except httpx.RequestError as e:
-            _.push(result_list, "'UrlScan': 'Error'")
+            _.push(result_list, '"\'UrlScan\'":"Error",')
             result_str = "".join(result_list)
             add_data(session, keyword, result_str, "result")
             error_logger.error("Error occurred while trying to fetch data from UrlScan: " + str(e))

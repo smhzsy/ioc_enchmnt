@@ -27,17 +27,17 @@ async def search_hash_threatfox_async(file_hash: str, result_list: list) -> None
             result = response.json()
 
             if response.status_code == 200 and result["query_status"] == "ok":
-                _.push(result_list, "'ThreatFox': 'True'")
+                _.push(result_list, '"\'ThreatFox\'":"True",')
                 result_str = "".join(result_list)
                 add_data(session, file_hash, result_str, "result")
                 logger.info("ThreatFox Hash info added.")
             else:
-                _.push(result_list, "'ThreatFox': 'False'")
+                _.push(result_list, '"\'ThreatFox\'":"False",')
                 result_str = "".join(result_list)
                 add_data(session, file_hash, result_str, "result")
                 logger.info("ThreatFox Hash info failed.")
         except httpx.RequestError as e:
-            _.push(result_list, "'ThreatFox': 'Error'")
+            _.push(result_list, '"\'ThreatFox\'":"Error",')
             result_str = "".join(result_list)
             add_data(session, file_hash, result_str, "result")
             error_logger.error("Error occurred while trying to fetch data from ThreatFox hash database: " + str(e))

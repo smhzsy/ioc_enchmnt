@@ -30,17 +30,17 @@ async def shodan_lookup_async(ip: str, result_list: list) -> None:
 
         host = await api.host(ip)
         if "Access denied" in str(host):
-            _.push(result_list, "'Shodan': 'False'")
+            _.push(result_list, '"\'Shodan\'":"False",')
             result_str = "".join(result_list)
             add_data(session, ip, result_str, "result")
             logger.info("Shodan info failed.")
         else:
-            _.push(result_list, "'Shodan': 'True'")
+            _.push(result_list, '"\'Shodan\'":"True",')
             result_str = "".join(result_list)
             add_data(session, ip, result_str, "result")
             logger.info("Shodan info added.")
     except shodan.APIError as e:
-        _.push(result_list, "'Shodan': 'Error'")
+        _.push(result_list, '"\'Shodan\'":"Error",')
         result_str = "".join(result_list)
         add_data(session, ip, result_str, "result")
         error_logger.error("Error occurred while trying to fetch data from Shodan: " + str(e))

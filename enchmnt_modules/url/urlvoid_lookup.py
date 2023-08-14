@@ -32,17 +32,17 @@ async def search_apivoid_url_async(url: str, result_list: list) -> None:
             response = await client.get(api_endpoint, params=params)
 
             if response.status_code == 200:
-                _.push(result_list, "'UrlVoid': 'True'")
+                _.push(result_list, '"\'UrlVoid\'":"True",')
                 result_str = "".join(result_list)
                 add_data(session, url, result_str, "result")
                 logger.info("ApiVoid info added.")
             else:
-                _.push(result_list, "'UrlVoid': 'False'")
+                _.push(result_list, '"\'UrlVoid\'":"False",')
                 result_str = "".join(result_list)
                 add_data(session, url, result_str, "result")
                 logger.info("ApiVoid info failed.")
         except httpx.RequestError as e:
-            _.push(result_list, "'UrlVoid': 'Error'")
+            _.push(result_list, '"\'UrlVoid\'":"Error",')
             result_str = "".join(result_list)
             add_data(session, url, result_str, "result")
             error_logger.error("Error occurred while trying to fetch data from ApiVoid: " + str(e))

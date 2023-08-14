@@ -25,22 +25,22 @@ async def mg_ip_lookup_async(ip_address: str, result_list: list) -> None:
             json_data = response.json()
 
             if "false" in str(json_data):
-                _.push(result_list, "'MertcanGokgoz': 'False'")
+                _.push(result_list, '"\'Mertcan Gokgoz\'":"False",')
                 result_str = "".join(result_list)
                 add_data(session, ip_address, result_str, "result")
                 logger.info("Mertcan Gokgoz ip info failed.")
             elif "invalid query" in str(json_data):
-                _.push(result_list, "'MertcanGokgoz': 'TypeError'")
+                _.push(result_list, '"\'Mertcan Gokgoz\'":"TypeError",')
                 result_str = "".join(result_list)
                 add_data(session, ip_address, result_str, "result")
                 logger.info("Mertcan Gokgoz ip info failed. (type error)")
             else:
-                _.push(result_list, "'MertcanGokgoz': 'True'")
+                _.push(result_list,  '"\'Mertcan Gokgoz\'":"True",')
                 result_str = "".join(result_list)
                 add_data(session, ip_address, result_str, "result")
                 logger.info("Mertcan Gokgoz ip info added.")
         except httpx.RequestError as e:
-            _.push(result_list, "'MertcanGokgoz': 'Error'")
+            _.push(result_list, '"\'Mertcan Gokgoz\'":"Error",')
             result_str = "".join(result_list)
             add_data(session, ip_address, result_str, "result")
             error_logger.error("Error occurred while trying to fetch data from MG bad IP API: " + str(e))

@@ -37,17 +37,17 @@ async def get_virustotal_url_info_async(url: str, result_list: list) -> None:
             response = requests.get(report_url, params=params)
 
             if response.status_code == 200:
-                _.push(result_list, "'VirusTotal': 'True'")
+                _.push(result_list, '"\'VirusTotal\'":"True",')
                 result_str = "".join(result_list)
                 add_data(session, url, result_str, "result")
                 logger.info("VirusTotal info added.")
             else:
-                _.push(result_list, "'VirusTotal': 'False'")
+                _.push(result_list, '"\'VirusTotal\'":"False",')
                 result_str = "".join(result_list)
                 add_data(session, url, result_str, "result")
                 logger.info("VirusTotal info failed.")
         else:
-            _.push(result_list, "'VirusTotal': 'Error'")
+            _.push(result_list, '"\'VirusTotal\'":"Error",')
             result_str = "".join(result_list)
             add_data(session, url, result_str, "result")
             error_logger.error(
@@ -55,7 +55,7 @@ async def get_virustotal_url_info_async(url: str, result_list: list) -> None:
                 + str(scan_response_json["verbose_msg"])
             )
     except Exception as e:
-        _.push(result_list, "'VirusTotal': 'Error'")
+        _.push(result_list, '"\'VirusTotal\'":"Error",')
         result_str = "".join(result_list)
         add_data(session, url, result_str, "result")
         error_logger.error("Virustotal got an error while scanning." + str(e))

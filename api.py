@@ -19,12 +19,7 @@ async def search(ioc: str):
     """
     await main(ioc)
     data = get_data(ioc)
-    data_str = str(data)
-    data_str = data_str.replace("''","','")
-    string_data = data_str.replace("'", "\"")
-    json_data = json.loads(string_data)
-    json_dict = json.dumps(json_data, indent=3)
-    return JSONResponse(content=json_dict)
+    return data
 
 
 if __name__ == "__main__":

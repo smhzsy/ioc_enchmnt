@@ -31,17 +31,17 @@ async def yara_hash_lookup_async(hash_value: str, result_list: list) -> None:
             response_data = response.json()
 
             if "no_results" in str(response_data):
-                _.push(result_list, "'Yaraify': 'False'")
+                _.push(result_list, '"\'Yaraify\'":"False",')
                 result_str = "".join(result_list)
                 add_data(session, hash_value, result_str, "result")
                 logger.info("Yaraify info failed.")
             else:
-                _.push(result_list, "'Yaraify': 'True'")
+                _.push(result_list, '"\'Yaraify\'":"True",')
                 result_str = "".join(result_list)
                 add_data(session, hash_value, result_str, "result")
                 logger.info("Yaraify info added.")
         except httpx.RequestError as e:
-            _.push(result_list, "'Yaraify': 'Error'")
+            _.push(result_list, '"\'Yaraify\'":"Error",')
             result_str = "".join(result_list)
             add_data(session, hash_value, result_str, "result")
             error_logger.error("Error occurred while trying to fetch data from Yaraify: " + str(e))

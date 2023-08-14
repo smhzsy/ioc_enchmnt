@@ -28,20 +28,20 @@ async def mg_domain_lookup_async(input_value: str, result_list: list) -> None:
 
             for domain in domains:
                 if input_value.lower() in domain.lower():
-                    _.push(result_list, "'MertcanGokgoz': 'True'")
+                    _.push(result_list, '"\'Mertcan Gokgoz\'":"True",')
                     result_str = "".join(result_list)
                     add_data(session, input_value, result_str, "result")
                     logger.info("Mertcan Gokgoz domain info added.")
                     found = True
 
             if not found:
-                _.push(result_list, "'MertcanGokgoz': 'False'")
+                _.push(result_list, '"\'Mertcan Gokgoz\'":"False",')
                 result_str = "".join(result_list)
                 add_data(session, input_value, result_str, "result")
                 logger.info("Mertcan Gokgoz domain info failed.")
 
         except httpx.RequestError as e:
-            _.push(result_list, "'MertcanGokgoz': 'Error'")
+            _.push(result_list, '"\'Mertcan Gokgoz\'":"Error",')
             result_str = "".join(result_list)
             add_data(session, input_value, result_str, "result")
             error_logger.error("Error occurred while trying to fetch data from MG domain: " + str(e))

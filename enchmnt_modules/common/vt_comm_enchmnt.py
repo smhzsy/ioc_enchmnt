@@ -42,17 +42,17 @@ async def get_virustotal_info_async(type: InputType, ioc: str, result_list: list
         try:
             response = await client.get(url, headers=headers)
             if response.status_code == 200:
-                _.push(result_list, "'VirusTotal': 'True'")
+                _.push(result_list, '"\'VirusTotal\'":"True",')
                 result_str = "".join(result_list)
                 add_data(session, ioc, result_str, "result")
                 logger.info("VirusTotal Hash info added.")
             else:
-                _.push(result_list, "'VirusTotal': 'False'")
+                _.push(result_list, '"\'VirusTotal\'":"False",')
                 result_str = "".join(result_list)
                 add_data(session, ioc, result_str, "result")
                 logger.info("VirusTotal Hash info failed.")
         except Exception as e:
-            _.push(result_list, "'VirusTotal': 'Error'")
+            _.push(result_list, '"\'VirusTotal\'":"Error",')
             result_str = "".join(result_list)
             add_data(session, ioc, result_str, "result")
             error_logger.error(

@@ -20,8 +20,8 @@ def get_data(search_ioc: str) -> dict | None:
         return None
 
     data = {
-        "result": result.result,
-        "info": result.info
+        "result": {result.result},
+        "info": {result.info}
     }
 
     return data

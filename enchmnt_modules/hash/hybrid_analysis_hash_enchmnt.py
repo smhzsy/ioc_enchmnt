@@ -40,17 +40,17 @@ async def get_hyan_hash_info_async(hash_to_look: str, result_list: list) -> None
 
             if json_response:
                 if "validation_errors" in json_response:
-                    _.push(result_list, "'HybridAnalysis': 'False'")
+                    _.push(result_list,'"\'HybridAnalysis\'":"False",')
                     result_str = "".join(result_list)
                     add_data(session, hash_to_look, result_str, "result")
                     logger.info("HybridAnalysis info failed.")
                 else:
-                    _.push(result_list, "'HybridAnalysis': 'True'")
+                    _.push(result_list, '"\'HybridAnalysis\'":"True",')
                     result_str = "".join(result_list)
                     add_data(session, hash_to_look, result_str, "result")
                     logger.info("HybridAnalysis info added.")
         except httpx.RequestError as e:
-            _.push(result_list, "'HybridAnalysis': 'Error'")
+            _.push(result_list, '"\'HybridAnalysis\'":"Error",')
             result_str = "".join(result_list)
             add_data(session, hash_to_look, result_str, "result")
             error_logger.error("Error occurred while trying to fetch data from HybridAnalysis: " + str(e))

@@ -30,10 +30,10 @@ async def get_location_async(keyword: str, info_list: list) -> None:
                 lat = response_data.get("lat")
                 lon = response_data.get("lon")
 
-                _.push(info_list, f"'Country': '{country}'")
-                _.push(info_list, f"'City': '{city}'")
-                _.push(info_list, f"'Latitude': '{lat}'")
-                _.push(info_list, f"'Longitude': '{lon}'")
+                _.push(info_list, f'"\'Country\'":"{country}",')
+                _.push(info_list, f'"\'City\'":"{city}",')
+                _.push(info_list, f'"\'Latitude\'":"{lat}",')
+                _.push(info_list, f'"\'Longitude\'":"{lon}",')
 
                 result_str = "".join(info_list)
 
@@ -41,13 +41,13 @@ async def get_location_async(keyword: str, info_list: list) -> None:
                 logger.info("Location info added.")
 
             else:
-                _.push(info_list, "'Location': 'Not Found'")
+                _.push(info_list, '"\'Location\'":"Not Found",')
                 result_str = "".join(info_list)
                 add_data(session, keyword, result_str, "info")
                 logger.info("Location info failed.")
 
         except Exception as e:
-            _.push(info_list, "'Location': 'Error'")
+            _.push(info_list,'"\'Location\'":"Error",')
             result_str = "".join(info_list)
             add_data(session, keyword, result_str, "info")
             error_logger.error("Error while trying to get Location Info: %s", str(e))

@@ -41,7 +41,7 @@ async def search_in_bd_repo_async(search_ioc: str, result_list: list) -> None:
                     if content_response.status_code == 200:
                         file_content = content_response.text
                         if search_ioc in file_content:
-                            _.push(result_list, "'Brandefense': 'True'")
+                            _.push(result_list, '"\'Brandefense\'":"True",')
                             result_str = "".join(result_list)
                             session = create_session()
                             add_data(session, search_ioc, result_str, "result")
@@ -49,13 +49,13 @@ async def search_in_bd_repo_async(search_ioc: str, result_list: list) -> None:
                             found = True
                             break
             if not found:
-                _.push(result_list, "'Brandefense': 'False'")
+                _.push(result_list, '"\'Brandefense\'":"False",')
                 result_str = "".join(result_list)
                 session = create_session()
                 add_data(session, search_ioc, result_str, "result")
                 logger.info("IOC not found in Brandefense Repo")
         else:
-            _.push(result_list, "'Brandefense': 'Error'")
+            _.push(result_list, '"\'Brandefense\'":"Error",')
             result_str = "".join(result_list)
             session = create_session()
             add_data(session, search_ioc, result_str, "result")

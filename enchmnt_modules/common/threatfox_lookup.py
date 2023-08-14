@@ -26,17 +26,17 @@ async def search_ioc_threatfox_async(ioc: str, result_list: list) -> None:
             if response.status_code == 200:
                 result = response.json()
                 if result["query_status"] == "ok":
-                    _.push(result_list, "'ThreatFox': 'True'")
+                    _.push(result_list, '"\'ThreatFox\'":"True",')
                     result_str = "".join(result_list)
                     add_data(session, ioc, result_str, "result")
                     logger.info("ThreatFox info added.")
                 else:
-                    _.push(result_list, "'ThreatFox': 'False'")
+                    _.push(result_list, '"\'ThreatFox\'":"False",')
                     result_str = "".join(result_list)
                     add_data(session, ioc, result_str, "result")
                     logger.info("ThreatFox info failed.")
             else:
-                _.push(result_list, "'ThreatFox': 'Error'")
+                _.push(result_list, '"\'ThreatFox\'":"Error",')
                 result_str = "".join(result_list)
                 add_data(session, ioc, result_str, "result")
                 error_logger.error(
@@ -44,7 +44,7 @@ async def search_ioc_threatfox_async(ioc: str, result_list: list) -> None:
                     + str(response.status_code)
                 )
         except httpx.RequestError as e:
-            _.push(result_list, "'ThreatFox': 'Error'")
+            _.push(result_list, '"\'ThreatFox\'":"Error",')
             result_str = "".join(result_list)
             add_data(session, ioc, result_str, "result")
             error_logger.error("Error while trying to fetch data from ThreatFox:" + str(e))
